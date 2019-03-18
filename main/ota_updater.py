@@ -22,7 +22,7 @@ class OTAUpdater:
         if not sta_if.isconnected():
             print('connecting to network...')
             sta_if.active(True)
-            sta_if.ifconfig(ipaddress,'255.255.255.0','192.168.1.1','1.1.1.1')
+            sta_if.ifconfig((ipaddress,'255.255.255.0','192.168.1.1','1.1.1.1'))
             sta_if.connect(ssid, password)
             while not sta_if.isconnected():
                 pass
@@ -113,6 +113,7 @@ class OTAUpdater:
 
     def get_latest_version(self):
         latest_release = self.http_client.get(self.github_repo + '/releases/latest')
+        print(latest_release.json())
         version = latest_release.json()['tag_name']
         latest_release.close()
         return version
@@ -199,6 +200,7 @@ class HttpClient:
             port = int(port)
 
         ai = usocket.getaddrinfo(host, port, 0, usocket.SOCK_STREAM)
+        print(ai)
         ai = ai[0]
 
         s = usocket.socket(ai[0], ai[1], ai[2])
@@ -232,7 +234,7 @@ class HttpClient:
                 s.write(data)
 
             l = s.readline()
-            # print(l)
+            print(l)
             l = l.split(None, 2)
             status = int(l[1])
             reason = ''
@@ -242,7 +244,7 @@ class HttpClient:
                 l = s.readline()
                 if not l or l == b'\r\n':
                     break
-                # print(l)
+                print(l)
                 if l.startswith(b'Transfer-Encoding:'):
                     if b'chunked' in l:
                         raise ValueError('Unsupported ' + l)
