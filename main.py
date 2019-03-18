@@ -1,16 +1,24 @@
 from main.ota_updater import OTAUpdater
+#from main.terminal import Terminal
+
+node_name = "node8"
+node_ip = "192.168.1.28"
+node_gateway = "192.168.1.1"
+node_ssidname = "terminalUTAD"
+node_ssidpassword = "ecocampus2019"
+gitaddress = "https://github.com/jpbrito/terminal"
+
+
 
 def download_and_install_update_if_available():
-    o = OTAUpdater('https://github.com/jpbrito/terminal')
-    o.using_network('terminalUTAD','ecocampus2019','192.168.1.28')
-    o.download_and_install_update_if_available('terminalUTAD','ecocampus2019', '192.168.1.28')
-    o.check_for_update_to_install_during_next_reboot()
+    o = OTAUpdater(gitaddress)
+    o.using_network(node_ssidname,node_ssidpassword,node_ip)
+    o.download_and_install_update_if_available(node_ssidname,node_ssidpassword,node_ip)
 def start():
-    #custom code
+    # aqui executa o codigo principal e so chamar a funcao main.principal
     # import da funcao a executar
-    import main.principal
-    #check_for_update_to_install_during_next_reboot()
-    print("ok")
+    from main.terminal import Terminal
+    t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
 
 def boot():
     download_and_install_update_if_available()
