@@ -1,16 +1,16 @@
-from time import sleep
+from main.time import sleep
 
-from simple import MQTTClient
+from main.simple import MQTTClient
 
-from machine import Pin, I2C, ADC
+from main.machine import Pin, I2C, ADC
 
-import bmp280
+import main.bmp280
 
 from dht import DHT22
 
-import adafruit_sgp30
+import main.adafruit_sgp30
 
-import mq135
+import main.mq135
 
 import network
 
@@ -26,19 +26,12 @@ TOPIC = '/terminal'
 
 
 
-station = network.WLAN(network.STA_IF)
-
-station.active(True)
-
-station.ifconfig(('192.168.1.28','255.255.255.0','192.168.1.1','1.1.1.1'))
-
-station.connect("terminalUTAD","ecocampus2019")
-
-
-
-while station.isconnected() == False:
-
-    print("Trying to connect...")
+#station = network.WLAN(network.STA_IF)
+#station.active(True)
+#station.ifconfig(('192.168.1.28','255.255.255.0','192.168.1.1','1.1.1.1'))
+#station.connect("terminalUTAD","ecocampus2019")
+#while station.isconnected() == False:
+#    print("Trying to connect...")
 
 
 
