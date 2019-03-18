@@ -8,9 +8,9 @@ import main.bmp280 as bmp280
 
 from dht import DHT22
 
-import main.adafruit_sgp30
+import main.adafruit_sgp30 as adafruit_sgp30
 
-import main.mq135
+import main.mq135 as mq135
 
 import network
 
