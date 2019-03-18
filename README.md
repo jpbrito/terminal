@@ -1,4 +1,4 @@
-# MicroPython OTA Updater
+# Terminal Rodoviario
 
 This micropython module allows for automatic updating of your code on Microcontrollers using github releases.
 
