@@ -19,6 +19,7 @@ def start():
     # import da funcao a executar
     from main.terminal import Terminal
     t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
+    t.read()
 
 def boot():
     download_and_install_update_if_available()

@@ -15,7 +15,8 @@ class Terminal:
         self.node_gateway = node_gateway
         self.node_wifi_ssid = node_wifi_ssid
         self.node_wifi_password = node_wifi_password
-        self.client = MQTTClient(self.node_name, self.node_gateway)
+        self.client = MQTTClient(self.node_name,self.node_gateway)
+        self.client.connect()
         self.sensordht = DHT22(Pin(15, Pin.IN, Pin.PULL_UP))
         self.i2c = I2C(scl=Pin(22), sda=Pin(21))
         self.i2csgp30 = I2C(scl=Pin(17), sda=Pin(16))
