@@ -1,8 +1,8 @@
-from main.time import sleep
+from time import sleep
 
 from main.simple import MQTTClient
 
-from main.machine import Pin, I2C, ADC
+from machine import Pin, I2C, ADC
 
 import main.bmp280
 
