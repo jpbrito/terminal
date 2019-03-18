@@ -4,7 +4,7 @@ from main.simple import MQTTClient
 
 from machine import Pin, I2C, ADC
 
-import main.bmp280
+import main.bmp280 as bmp280
 
 from dht import DHT22
 
