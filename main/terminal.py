@@ -22,8 +22,6 @@ class Terminal:
         self.i2csgp30 = I2C(scl=Pin(17), sda=Pin(16))
         self.bmp = bmp280.BMP280(self.i2c)
         self.sgp30 = adafruit_sgp30.Adafruit_SGP30(self.i2csgp30)
-        self.sgp30.iaq_init()
-        self.sgp30.set_iaq_baseline(0x8973, 0x8aae)
         self.mq135 = mq135.MQ135(Pin(36))
         self.data = {}
         self.data["node"] = self.node_name
@@ -44,17 +42,26 @@ class Terminal:
 
     # 2) read mq135 CO2 PPM and other values
     def readMQ135(self):
-        self.data["rzero"] = self.mq135.get_rzero()
-        self.data["corrected_rzero"] = self.mq135.get_corrected_rzero(22,55)
-        self.data["ppm"] = self.mq135.get_ppm()
-        if self.data["dht22_temp"] == -1:
-            self.data["corrected_ppm"] = self.mq135.get_corrected_ppm(22,55) # error reading dht we assume default values for temp and hum
+        self.data["mq135_rzero"] = self.mq135.get_rzero()
+        #print(self.data["rzero"])
+        self.data["mq135_corrected_rzero"] = self.mq135.get_corrected_rzero(22,55)
+        if self.data["mq135_rzero"] < 0: # sensor em aquecimento colocamos tudo a -1 e damos return
+            self.data["mq135_rzero"] = -1
+            self.data["mq135_corrected_rzero"] = -1
+            self.data["mq135_ppm"] = -1
+            self.data["mq135_corrected_ppm"] = -1
+            self.data["mq135_resistance"] = -1
+            return
         else:
-            self.data["corrected_ppm"] = self.mq135.get_corrected_ppm(self.data["dht22_temp"],self.data["dht22_hum"])
-        if self.data["ppm"] >= 4000 or self.data["corrected_ppm"] >= 4000:
-            self.data["ppm"] = -1
-            self.data["corrected_ppm"] = -1
-        self.data["resistance"] = self.mq135.get_resistance()
+            self.data["mq135_ppm"] = self.mq135.get_ppm()
+            print('Temperature: ' + str(self.data["dht22_temp"]) + 'Humidity: ' + str(self.data["dht22_hum"]))
+            self.data["mq135_corrected_ppm"] = self.mq135.get_corrected_ppm(self.data["dht22_temp"],self.data["dht22_hum"])
+            #se o valor do ppm for maior que 4000
+            if self.data["mq135_ppm"] >= 4000 or self.data["mq135_corrected_ppm"] >= 4000:
+                self.data["mq135_ppm"] = -1
+                self.data["mq135_corrected_ppm"] = -1
+            self.data["mq135_resistance"] = self.mq135.get_resistance()
+            return
 
 
     # 3) read bmp280 temp and pressure
@@ -64,8 +71,9 @@ class Terminal:
 
     # 4) read sgp30 co2 and tvoc
     def readSGP30(self):
-        self.data["sgp30_co2"] = self.sgp30.co2eq
-        self.data["sgp30_tvoc"] = self.sgp30.tvoc
+        self.co2eq,self.tvoc = self.sgp30.iaq_measure()
+        self.data["sgp30_co2"] = self.co2eq
+        self.data["sgp30_tvoc"] = self.tvoc
 
     # 5) read sensor data
     def read(self):

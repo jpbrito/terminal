@@ -33,6 +33,7 @@ class MQ135(object):
     def get_resistance(self):
         adc = ADC(self.pin)
         value = adc.read()
+        #print(value)
         if value == 0:
             return -1
         return (1023./value - 1.) * self.RLOAD
@@ -42,6 +43,8 @@ class MQ135(object):
         return self.get_resistance()/ self.get_correction_factor(temperature, humidity)
 
     def get_ppm(self):
+        #print(str(self.get_resistance()))
+        #print(str(self.RZERO))
         """Returns the ppm of CO2 sensed (assuming only CO2 in the air)"""
         if self.get_resistance() <= 0 or self.RZERO <=0:
                 return self.PARA * math.pow((abs(self.get_resistance())/ abs(self.RZERO)), -self.PARB)

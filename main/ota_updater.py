@@ -113,7 +113,7 @@ class OTAUpdater:
 
     def get_latest_version(self):
         latest_release = self.http_client.get(self.github_repo + '/releases/latest')
-        print(latest_release.json())
+        #print(latest_release.json())
         version = latest_release.json()['tag_name']
         latest_release.close()
         return version
@@ -234,7 +234,7 @@ class HttpClient:
                 s.write(data)
 
             l = s.readline()
-            print(l)
+            #print(l)
             l = l.split(None, 2)
             status = int(l[1])
             reason = ''
@@ -244,7 +244,7 @@ class HttpClient:
                 l = s.readline()
                 if not l or l == b'\r\n':
                     break
-                print(l)
+                #print(l)
                 if l.startswith(b'Transfer-Encoding:'):
                     if b'chunked' in l:
                         raise ValueError('Unsupported ' + l)
