@@ -22,6 +22,7 @@ class Terminal:
         self.i2csgp30 = I2C(scl=Pin(17), sda=Pin(16))
         self.bmp = bmp280.BMP280(self.i2c)
         self.sgp30 = adafruit_sgp30.Adafruit_SGP30(self.i2csgp30)
+        self.sgp30.iaq_init()
         self.mq135 = mq135.MQ135(Pin(36))
         self.data = {}
         self.data["node"] = self.node_name
@@ -71,9 +72,9 @@ class Terminal:
 
     # 4) read sgp30 co2 and tvoc
     def readSGP30(self):
-        self.co2eq,self.tvoc = self.sgp30.iaq_measure()
-        self.data["sgp30_co2"] = self.co2eq
-        self.data["sgp30_tvoc"] = self.tvoc
+        #self.co2eq,self.tvoc = self.sgp30.iaq_measure()
+        self.data["sgp30_co2"] = self.sgp30.co2eq
+        self.data["sgp30_tvoc"] = self.sgp30.tvoc
 
     # 5) read sensor data
     def read(self):

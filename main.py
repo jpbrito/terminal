@@ -10,13 +10,15 @@ node_ssidpassword = "ecocampus2019"
 gitaddress = "https://github.com/jpbrito/terminal"
 
 
+o = OTAUpdater(gitaddress)
+o.using_network(node_ssidname,node_ssidpassword,node_ip)
+t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
+
 def download_and_install_update_if_available():
-    o = OTAUpdater(gitaddress)
-    o.using_network(node_ssidname,node_ssidpassword,node_ip)
     o.download_and_install_update_if_available(node_ssidname,node_ssidpassword,node_ip)
     o.check_for_update_to_install_during_next_reboot()
 def start():
-    t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
+    #t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
     t.read()
 
 def boot():
