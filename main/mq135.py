@@ -46,16 +46,16 @@ class MQ135(object):
         #print(str(self.get_resistance()))
         #print(str(self.RZERO))
         """Returns the ppm of CO2 sensed (assuming only CO2 in the air)"""
-        if self.get_resistance() <= 0 or self.RZERO <=0:
-                return self.PARA * math.pow((abs(self.get_resistance())/ abs(self.RZERO)), -self.PARB)
-        return self.PARA * math.pow((self.get_resistance()/ self.RZERO), -self.PARB)
+        if self.get_resistance() <= 0 or self.get_rzero() <=0:
+                return self.PARA * math.pow((abs(self.get_resistance())/ abs(self.get_rzero())), -self.PARB)
+        return self.PARA * math.pow((self.get_resistance()/ self.get_rzero()), -self.PARB)
 
     def get_corrected_ppm(self, temperature, humidity):
         """Returns the ppm of CO2 sensed (assuming only CO2 in the air)
         corrected for temperature/humidity"""
-        if self.get_resistance() <= 0 or self.RZERO <=0:
-                return self.PARA * math.pow((abs(self.get_corrected_resistance(temperature, humidity))/ abs(self.RZERO)), -self.PARB)
-        return self.PARA * math.pow((self.get_corrected_resistance(temperature, humidity)/ self.RZERO), -self.PARB)
+        if self.get_resistance() <= 0 or self.get_rzero() <=0:
+                return self.PARA * math.pow((abs(self.get_corrected_resistance(temperature, humidity))/ abs(self.get_rzero())), -self.PARB)
+        return self.PARA * math.pow((self.get_corrected_resistance(temperature, humidity)/ self.get_rzero()), -self.PARB)
 
     def get_rzero(self):
         """Returns the resistance RZero of the sensor (in kOhms) for calibratioin purposes"""

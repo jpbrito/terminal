@@ -15,6 +15,7 @@ o.using_network(node_ssidname,node_ssidpassword,node_ip)
 t = Terminal(node_name,node_ip,node_gateway,node_ssidname,node_ssidpassword)
 
 def download_and_install_update_if_available():
+    o.using_network(node_ssidname,node_ssidpassword,node_ip)
     o.download_and_install_update_if_available(node_ssidname,node_ssidpassword,node_ip)
     o.check_for_update_to_install_during_next_reboot()
 def start():
